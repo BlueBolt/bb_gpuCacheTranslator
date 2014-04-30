@@ -417,11 +417,20 @@ class BB_gpuCacheTranslator : public CShapeTranslator
                 static void nodeInitialiser( CAbTranslator context )
                 {
                         CExtensionAttrHelper helper( context.maya, "procedural" );
-                        CShapeTranslator::MakeCommonAttributes(helper);
-                        MakeArnoldVisibilityFlags( helper );
 
-                        helper.MakeInput( "self_shadows" );
-                        helper.MakeInput( "opaque" );
+                        CAttrData data;
+                        data.stringDefault = "";
+                        data.name = "aiTraceSets";
+                        data.shortName = "trace_sets";
+                        data.type = AI_TYPE_STRING;
+
+                        helper.MakeInput(data);
+
+                        data.stringDefault = "";
+                        data.name = "aiSssSetname";
+                        data.shortName = "ai_sss_setname";
+                        data.type = AI_TYPE_STRING;
+                        helper.MakeInput(data);
 
                 }
 
