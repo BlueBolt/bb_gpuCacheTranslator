@@ -353,6 +353,20 @@ class BB_gpuCacheTranslator : public CShapeTranslator
                                 AiNodeSetStr( node, "overridefile", plug.asString().asChar() );
                         }
 
+                        plug = FindMayaObjectPlug( "userAttributes" );
+                        if( !plug.isNull() )
+                        {
+                                AiNodeDeclare( node, "userAttributes", "constant STRING" );
+                                AiNodeSetStr( node, "userAttributes", plug.asString().asChar() );
+                        }
+
+                        plug = FindMayaObjectPlug( "userAttributesfile" );
+                        if( !plug.isNull() )
+                        {
+                                AiNodeDeclare( node, "userAttributesfile", "constant STRING" );
+                                AiNodeSetStr( node, "userAttributesfile", plug.asString().asChar() );
+                        }
+
                         plug = FindMayaObjectPlug( "skipJson" );
                         if( !plug.isNull() )
                         {
@@ -372,6 +386,13 @@ class BB_gpuCacheTranslator : public CShapeTranslator
                         {
                                 AiNodeDeclare( node, "skipOverrides", "constant BOOL" );   
                                 AiNodeSetBool( node, "skipOverrides", plug.asBool() );
+                        }
+
+                        plug = FindMayaObjectPlug( "skipUserAttributes" );
+                        if( !plug.isNull() )
+                        {
+                                AiNodeDeclare( node, "skipUserAttributes", "constant BOOL" );   
+                                AiNodeSetBool( node, "skipUserAttributes", plug.asBool() );
                         }
 
                         plug = FindMayaObjectPlug( "skipDisplacements" );
