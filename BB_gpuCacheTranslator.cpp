@@ -407,14 +407,27 @@ class BB_gpuCacheTranslator : public CShapeTranslator
                         {
                                 AiNodeDeclare( node, "objectPattern", "constant STRING" );
                                 AiNodeSetStr( node, "objectPattern", plug.asString().asChar() );
-                        }
-                       
+                        }                       
                         
                         plug = FindMayaObjectPlug( "assShaders" );
                         if( !plug.isNull() )
                         {
                                 AiNodeDeclare( node, "assShaders", "constant STRING" );
                                 AiNodeSetStr( node, "assShaders", plug.asString().asChar() );
+                        }
+
+                        plug = FindMayaObjectPlug( "radiusPoint" );
+                        if( !plug.isNull() )
+                        {
+                                AiNodeDeclare( node, "radiusPoint", "constant FLOAT" );
+                                AiNodeSetFlt( node, "radiusPoint", plug.asFloat() );
+                        }
+
+                        plug = FindMayaObjectPlug( "scaleVelocity" );
+                        if( !plug.isNull() )
+                        {
+                                AiNodeDeclare( node, "scaleVelocity", "constant FLOAT" );
+                                AiNodeSetFlt( node, "scaleVelocity", plug.asFloat() );
                         }
 
                 }
