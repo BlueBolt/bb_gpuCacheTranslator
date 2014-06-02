@@ -15,6 +15,8 @@
 
 // #include "bb_alembicArchiveShape.h"
 
+#include <Alembic/AbcCoreAbstract/Foundation.h>
+
 /*
  * Return a new string with all occurrences of 'from' replaced with 'to'
  */
@@ -551,13 +553,21 @@ extern "C"
 
 DLLEXPORT void initializeExtension( CExtension &extension )
 {
-        extension.Requires( "gpuCache" );
-        extension.RegisterTranslator(
-                "gpuCache",
-                "",
-                BB_gpuCacheTranslator::creator,
-                BB_gpuCacheTranslator::nodeInitialiser
-        );
+    const char * pluginVersion = "1.0";
+
+    MString info = "MTOA gpuCache Translator v";
+    info += pluginVersion;
+    info += " using ";
+    info += Alembic::AbcCoreAbstract::GetLibraryVersion().c_str();
+    MGlobal::displayInfo(info);
+
+    extension.Requires( "gpuCache" );
+    extension.RegisterTranslator(
+            "gpuCache",
+            "",
+            BB_gpuCacheTranslator::creator,
+            BB_gpuCacheTranslator::nodeInitialiser
+    );
 }
 
 DLLEXPORT void deinitializeExtension( CExtension &extension )
