@@ -43,6 +43,10 @@ SET( CXX_FILES
 	BB_gpuCacheTranslator.cpp
 )
 
+SET( MTOA_TEMPLATE_FILES
+   gpuCacheTemplate.py
+)
+
 SET( SOURCE_FILES ${CXX_FILES} ${H_FILES} )
 
 SET( CORE_LIBS )
@@ -66,6 +70,9 @@ TARGET_LINK_LIBRARIES( bb_gpuCacheTranslator
 
 INSTALL( TARGETS bb_gpuCacheTranslator
          DESTINATION mtoa/$ENV{MAYA_VERSION}/translator )
+
+INSTALL( FILES ${MTOA_TEMPLATE_FILES}
+         DESTINATION mtoa/$ENV{MAYA_VERSION}/AETemplates )
 
 
 
