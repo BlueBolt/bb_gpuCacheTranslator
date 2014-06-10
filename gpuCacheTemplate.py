@@ -55,7 +55,6 @@ class GpuCacheTemplate(templates.ShapeTranslatorTemplate):
 
     def setup(self):
         self.commonShapeAttributes()
-        self.checkAttrs()
         
         self.addSeparator()
         
@@ -97,40 +96,6 @@ class GpuCacheTemplate(templates.ShapeTranslatorTemplate):
         self.addControl('invertNormals', label='Invert Normals')
         self.endLayout()
         self.addControl("aiUserOptions", label="User Options")
-
-    def checkAttrs(self):
-        """ Check and add custom attributes if they don't exist"""
-
-        _attrs = {"objectPattern":"",
-                  "namePrefix":"",
-                  "assShaders":"",
-                  "shaderAssignation":"",
-                  "displacementAssignation":"",
-                  "overrides":"",
-                  "userAttributes":"",
-                  "shaderAssignmentfile":"",
-                  "overridefile":"",
-                  "userAttributesfile":"",
-                  "skipJson":False,
-                  "skipOverrides":False,
-                  "skipShaders":False,
-                  "skipDisplacements":False,
-                  "skipUserAttributes":False,
-                  "radiusPoint":0.1,
-                  "scaleVelocity":1.0,
-                  "makeInstance":True,
-                  "flipv":False,
-                  "invertNormals":False}
-
-        for a,dv in _attrs.items():
-            node = pm.PyNode(self.nodeName)
-            if node and not node.hasAttr(a):
-                if isinstance(dv,str):
-                    node.addAttr(a,dt="string")
-                elif isinstance(dv,bool):
-                    node.addAttr(a,at="bool",dv=dv)
-                elif isinstance(dv,float):
-                    node.addAttr(a,at="float",dv=dv)
 
 
 templates.registerAETemplate(GpuCacheTemplate, "gpuCache")
