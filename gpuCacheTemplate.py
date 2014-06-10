@@ -23,30 +23,39 @@ def LoadGpuCacheButtonPush(nodeName):
 
 def ArnoldGpuCacheEdit(nodeName, mPath, replace=False) :
     AttrName = nodeName.split('.')[-1]        
-    cmds.setAttr(nodeName,mArchivePath,type='string')
+    cmds.setAttr(nodeName,mPath,type='string')
     cmds.textField('GpuCache%sPath'%AttrName, edit=True, text=mPath)
 
-def ArnoldGpuCacheTemplateNew(nodeName) :
-    AttrName = nodeName.split('.')[-1]
+def ArnoldGpuCacheTemplateNew(plugName) :
+    AttrName = plugName.split('.')[-1]
     s1 = re.sub('(.)([A-Z][a-z]+)', r'\1 \2', AttrName)
     s2 = re.sub('(.)(file+)', r'\1 \2', s1)
     NiceName = re.sub('([a-z0-9])([A-Z])', r'\1 \2', s2).title()
-    cmds.rowColumnLayout( numberOfColumns=3, columnAlign=[(1, 'right'),(2, 'right'),(3, 'left')], columnAttach=[(1, 'right', 0), (2, 'both', 0), (3, 'left', 5)], columnWidth=[(1,145),(2,220),(3,30)] )
+
+    cmds.setUITemplate('attributeEditorTemplate',pst=True)
+    cmds.rowLayout( numberOfColumns=3 )
     cmds.text(label=NiceName)
-    path = cmds.textField('GpuCache%sPath'%AttrName,changeCommand=lambda *args: ArnoldGpuCacheEdit(nodeName, *args))
-    cmds.textField( path, edit=True, text=cmds.getAttr(nodeName) )
-    cmds.symbolButton('GpuCache%sPathButton'%AttrName, image='navButtonBrowse.png', command=lambda *args: LoadGpuCacheButtonPush(nodeName))
+    path = cmds.textField('GpuCache%sPath'%AttrName) # ,changeCommand=lambda *args: ArnoldGpuCacheEdit(plugName, *args)
+    cmds.symbolButton('GpuCache%sPathButton'%AttrName, image='navButtonBrowse.png')
+    cmds.setUITemplate(ppt=True)
+
+    ArnoldGpuCacheTemplateReplace(plugName)
+
     
 def ArnoldGpuCacheTemplateReplace(plugName) :
     AttrName = plugName.split('.')[-1]
+    cmds.connectControl('GpuCache%sPath'%AttrName,plugName,fileName=True )
+
     cmds.textField( 'GpuCache%sPath'%AttrName, edit=True, changeCommand=lambda *args: ArnoldGpuCacheEdit(plugName, *args))
     cmds.textField( 'GpuCache%sPath'%AttrName, edit=True, text=cmds.getAttr(plugName) )
-    cmds.symbolButton('GpuCache%sPathButton'%AttrName, edit=True, image='navButtonBrowse.png' , command=lambda *args: LoadGpuCacheButtonPush(plugName))
+    
+    cmds.symbolButton('GpuCache%sPathButton'%AttrName, edit=True, command=lambda *args: LoadGpuCacheButtonPush(plugName))
 
 class GpuCacheTemplate(templates.ShapeTranslatorTemplate):
 
     def setup(self):
         self.commonShapeAttributes()
+        self.checkAttrs()
         
         self.addSeparator()
         
@@ -82,10 +91,46 @@ class GpuCacheTemplate(templates.ShapeTranslatorTemplate):
         self.addControl("scaleVelocity", label="Scale Velocity")
         self.endLayout()
 
-        self.beginLayout('Other Options', collapse=False)
+        self.beginLayout('Advanced', collapse=False)
         self.addControl('makeInstance', label='Make Instance')
         self.addControl('flipv', label='Flip V Coord')
+        self.addControl('invertNormals', label='Invert Normals')
         self.endLayout()
         self.addControl("aiUserOptions", label="User Options")
+
+    def checkAttrs(self):
+        """ Check and add custom attributes if they don't exist"""
+
+        _attrs = {"objectPattern":"",
+                  "namePrefix":"",
+                  "assShaders":"",
+                  "shaderAssignation":"",
+                  "displacementAssignation":"",
+                  "overrides":"",
+                  "userAttributes":"",
+                  "shaderAssignmentfile":"",
+                  "overridefile":"",
+                  "userAttributesfile":"",
+                  "skipJson":False,
+                  "skipOverrides":False,
+                  "skipShaders":False,
+                  "skipDisplacements":False,
+                  "skipUserAttributes":False,
+                  "radiusPoint":0.1,
+                  "scaleVelocity":1.0,
+                  "makeInstance":True,
+                  "flipv":False,
+                  "invertNormals":False}
+
+        for a,dv in _attrs.items():
+            node = pm.PyNode(self.nodeName)
+            if node and not node.hasAttr(a):
+                if isinstance(dv,str):
+                    node.addAttr(a,dt="string")
+                elif isinstance(dv,bool):
+                    node.addAttr(a,at="bool",dv=dv)
+                elif isinstance(dv,float):
+                    node.addAttr(a,at="float",dv=dv)
+
 
 templates.registerAETemplate(GpuCacheTemplate, "gpuCache")
