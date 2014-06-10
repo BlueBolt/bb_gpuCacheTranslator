@@ -454,6 +454,7 @@ class BB_gpuCacheTranslator : public CShapeTranslator
                 {
                         CExtensionAttrHelper helper( context.maya, "procedural" );
 
+                        // make the attributes 
                         CAttrData data;
                         data.stringDefault = "";
                         data.name = "aiTraceSets";
@@ -467,6 +468,141 @@ class BB_gpuCacheTranslator : public CShapeTranslator
                         data.shortName = "ai_sss_setname";
                         data.type = AI_TYPE_STRING;
                         helper.MakeInput(data);
+
+
+                        data.stringDefault = "";
+                        data.name = "objectPattern";
+                        data.shortName = "object_pattern";
+                        data.type = AI_TYPE_STRING;
+                        helper.MakeInput(data);
+
+                        data.stringDefault = "";
+                        data.name = "namePrefix";
+                        data.shortName = "name_prefix";
+                        data.type = AI_TYPE_STRING;
+                        helper.MakeInput(data);                        
+
+                        data.defaultValue.BOOL = true;
+                        data.name = "makeInstance";
+                        data.shortName = "make _instance";
+                        data.type = AI_TYPE_BOOLEAN;
+                        helper.MakeInputBoolean(data);
+
+                        data.defaultValue.BOOL = false;
+                        data.name = "flipv";
+                        data.shortName = "flip_v";
+                        data.type = AI_TYPE_BOOLEAN;
+                        helper.MakeInputBoolean(data);
+
+                        data.defaultValue.BOOL = false;
+                        data.name = "invertNormals";
+                        data.shortName = "invert_normals";
+                        data.type = AI_TYPE_BOOLEAN;
+                        helper.MakeInputBoolean(data);
+
+                        data.stringDefault = "";
+                        data.name = "shaderAssignation";
+                        data.shortName = "shader_assignation";
+                        data.type = AI_TYPE_STRING;
+                        helper.MakeInput(data);    
+
+                        data.stringDefault = "";
+                        data.name = "displacementAssignation";
+                        data.shortName = "displacement_assignation";
+                        data.type = AI_TYPE_STRING;
+                        helper.MakeInput(data);  
+
+                        data.stringDefault = "";
+                        data.name = "shaderAssignmentfile";
+                        data.shortName = "shader_assignment_file";
+                        data.type = AI_TYPE_STRING;
+                        helper.MakeInput(data); 
+
+                        data.stringDefault = "";
+                        data.name = "overrides";
+                        data.shortName = "overrides";
+                        data.type = AI_TYPE_STRING;
+                        helper.MakeInput(data);                             
+
+                        data.stringDefault = "";
+                        data.name = "overridefile";
+                        data.shortName = "override_file";
+                        data.type = AI_TYPE_STRING;
+                        helper.MakeInput(data);     
+
+                        data.stringDefault = "";
+                        data.name = "userAttributes";
+                        data.shortName = "user_attributes";
+                        data.type = AI_TYPE_STRING;
+                        helper.MakeInput(data);     
+                        
+                        data.stringDefault = "";
+                        data.name = "userAttributesfile";
+                        data.shortName = "user_attributes_file";
+                        data.type = AI_TYPE_STRING;
+                        helper.MakeInput(data);     
+
+
+                        data.defaultValue.BOOL = false;
+                        data.name = "skipJson";
+                        data.shortName = "skip_json";
+                        data.type = AI_TYPE_BOOLEAN;
+                        helper.MakeInputBoolean(data);
+                        
+
+                        data.defaultValue.BOOL = false;
+                        data.name = "skipShaders";
+                        data.shortName = "skip_shaders";
+                        data.type = AI_TYPE_BOOLEAN;
+                        helper.MakeInputBoolean(data);
+                        
+
+                        data.defaultValue.BOOL = false;
+                        data.name = "skipOverrides";
+                        data.shortName = "skip_overrides";
+                        data.type = AI_TYPE_BOOLEAN;
+                        helper.MakeInputBoolean(data);
+                        
+
+                        data.defaultValue.BOOL = false;
+                        data.name = "skipUserAttributes";
+                        data.shortName = "skip_user_attributes";
+                        data.type = AI_TYPE_BOOLEAN;
+                        helper.MakeInputBoolean(data);
+                        
+
+                        data.defaultValue.BOOL = false;
+                        data.name = "skipDisplacements";
+                        data.shortName = "skip_displacements";
+                        data.type = AI_TYPE_BOOLEAN;
+                        helper.MakeInputBoolean(data);                        
+
+                        data.stringDefault = "";
+                        data.name = "objectPattern";
+                        data.shortName = "object_pattern";
+                        data.type = AI_TYPE_STRING;
+                        helper.MakeInput(data);     
+                        
+
+                        data.stringDefault = "";
+                        data.name = "assShaders";
+                        data.shortName = "ass_shaders";
+                        data.type = AI_TYPE_STRING;
+                        helper.MakeInput(data);   
+
+                        data.defaultValue.FLT = 0.1f;
+                        data.name = "radiusPoint";
+                        data.shortName = "radius_point";
+                        data.type = AI_TYPE_FLOAT;
+                        helper.MakeInputFloat(data);     
+                        
+
+                        data.defaultValue.FLT = 1.0f;
+                        data.name = "scaleVelocity";
+                        data.shortName = "scale_velocity";
+                        data.type = AI_TYPE_FLOAT;
+                        helper.MakeInputFloat(data);  
+                        
 
                 }
 
@@ -553,7 +689,7 @@ extern "C"
 
 DLLEXPORT void initializeExtension( CExtension &extension )
 {
-    const char * pluginVersion = "1.0";
+    const char * pluginVersion = "1.1";
 
     MString info = "MTOA gpuCache Translator v";
     info += pluginVersion;
