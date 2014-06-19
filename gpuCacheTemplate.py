@@ -51,6 +51,7 @@ def ArnoldGpuCacheTemplateReplace(plugName) :
     
     cmds.symbolButton('GpuCache%sPathButton'%AttrName, edit=True, command=lambda *args: LoadGpuCacheButtonPush(plugName))
 
+
 class GpuCacheTemplate(templates.ShapeTranslatorTemplate):
 
     def setup(self):
@@ -58,15 +59,15 @@ class GpuCacheTemplate(templates.ShapeTranslatorTemplate):
         
         self.addSeparator()
         
-        self.addControl("objectPattern", label="Object Pattern")
-        self.addControl("namePrefix", label="Name Prefix")
+        self.addControl('objectPattern', label='Object Pattern')
+        self.addControl('namePrefix', label='Name Prefix')
         self.addCustom('assShaders', ArnoldGpuCacheTemplateNew, ArnoldGpuCacheTemplateReplace)
 
         self.beginLayout('Dictionaries', collapse=False)
-        self.addControl("shaderAssignation", label="Shaders")
-        self.addControl("displacementAssignation", label="Displacements")
-        self.addControl("overrides", label="Overrides")
-        self.addControl("userAttributes", label="User Attributes")
+        self.addControl('shaderAssignation', label='Shaders')
+        self.addControl('displacementAssignation', label='Displacements')
+        self.addControl('overrides', label='Overrides')
+        self.addControl('userAttributes', label='User Attributes')
         self.endLayout()
 
         self.beginLayout('JSON Files', collapse=False)
@@ -76,26 +77,31 @@ class GpuCacheTemplate(templates.ShapeTranslatorTemplate):
         self.endLayout()
         
         self.beginLayout('Skip Options', collapse=False)
-        self.addControl("skipJson", label="Skip JSON")
-        self.addControl("skipShaders", label="Skip Shaders")
-        self.addControl("skipDisplacements", label="Skip Displacements")
-        self.addControl("skipOverrides", label="Skip Overrides")
-        self.addControl("skipUserAttributes", label="Skip User Attributes")
+        self.addControl('skipJson', label='Skip JSON')
+        self.addControl('skipShaders', label='Skip Shaders')
+        self.addControl('skipDisplacements', label='Skip Displacements')
+        self.addControl('skipOverrides', label='Skip Overrides')
+        self.addControl('skipUserAttributes', label='Skip User Attributes')
         self.endLayout()
 
-        self.addSeparator()
+        self.addSeparator()        
 
         self.beginLayout('Points', collapse=False)
-        self.addControl("radiusPoint", label="Point Radius")
-        self.addControl("scaleVelocity", label="Scale Velocity")
+        self.addControl('radiusPoint', label='Point Radius')
+        self.endLayout()
+
+        self.beginLayout('Curves', collapse=False)
+        self.addControl('radiusCurve', label='Curve Radius')
+        self.addControl('modeCurve', label='Curve Mode')
         self.endLayout()
 
         self.beginLayout('Advanced', collapse=False)
         self.addControl('makeInstance', label='Make Instance')
         self.addControl('flipv', label='Flip V Coord')
         self.addControl('invertNormals', label='Invert Normals')
+        self.addControl('scaleVelocity', label='Scale Velocity')
         self.endLayout()
-        self.addControl("aiUserOptions", label="User Options")
+        self.addControl('aiUserOptions', label='User Options')
 
 
-templates.registerAETemplate(GpuCacheTemplate, "gpuCache")
+templates.registerAETemplate(GpuCacheTemplate, 'gpuCache')

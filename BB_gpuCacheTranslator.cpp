@@ -425,6 +425,28 @@ class BB_gpuCacheTranslator : public CShapeTranslator
                                 AiNodeSetFlt( node, "radiusPoint", plug.asFloat() );
                         }
 
+                        plug = FindMayaObjectPlug( "radiusCurve" );
+                        if( !plug.isNull() )
+                        {
+                                AiNodeDeclare( node, "radiusCurve", "constant FLOAT" );
+                                AiNodeSetFlt( node, "radiusCurve", plug.asFloat() );
+                        }
+
+                        plug = FindMayaObjectPlug( "modeCurve" );
+                        if( !plug.isNull() )
+                        {
+                                AiNodeDeclare( node, "modeCurve", "constant STRING" );
+
+                                int modeCurveInt = plug.asInt();
+
+                                if (modeCurveInt == 1)
+                                   AiNodeSetStr(node, "modeCurve", "thick");
+                                else if (modeCurveInt == 2)
+                                   AiNodeSetStr(node, "modeCurve", "oriented");
+                                else
+                                   AiNodeSetStr(node, "modeCurve", "ribbon");                               
+                        }
+
                         plug = FindMayaObjectPlug( "scaleVelocity" );
                         if( !plug.isNull() )
                         {
@@ -484,7 +506,7 @@ class BB_gpuCacheTranslator : public CShapeTranslator
 
                         data.defaultValue.BOOL = true;
                         data.name = "makeInstance";
-                        data.shortName = "make _instance";
+                        data.shortName = "make_instance";
                         data.type = AI_TYPE_BOOLEAN;
                         helper.MakeInputBoolean(data);
 
@@ -596,13 +618,25 @@ class BB_gpuCacheTranslator : public CShapeTranslator
                         data.type = AI_TYPE_FLOAT;
                         helper.MakeInputFloat(data);     
                         
+                        data.defaultValue.FLT = 0.1f;
+                        data.name = "radiusCurve";
+                        data.shortName = "radius_curve";
+                        data.type = AI_TYPE_FLOAT;
+                        helper.MakeInputFloat(data); 
 
+                        data.name = "modeCurve";
+                        data.shortName = "mode_curve";
+                        data.enums.append("ribbon");
+                        data.enums.append("thick");
+                        data.enums.append("oriented");
+                        data.defaultValue.INT = 0;
+                        helper.MakeInputEnum(data);
+                        
                         data.defaultValue.FLT = 1.0f;
                         data.name = "scaleVelocity";
                         data.shortName = "scale_velocity";
                         data.type = AI_TYPE_FLOAT;
                         helper.MakeInputFloat(data);  
-                        
 
                 }
 
@@ -689,7 +723,7 @@ extern "C"
 
 DLLEXPORT void initializeExtension( CExtension &extension )
 {
-    const char * pluginVersion = "1.1";
+    const char * pluginVersion = "1.2";
 
     MString info = "MTOA gpuCache Translator v";
     info += pluginVersion;
