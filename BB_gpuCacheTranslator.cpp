@@ -163,6 +163,18 @@ class BB_gpuCacheTranslator : public CShapeTranslator
                               }
                         }
 
+                        //object pattern
+                        MString excludePattern = "";
+
+                        plug = FindMayaObjectPlug( "excludePattern" );
+                        if (!plug.isNull() )
+                        {
+                              if (plug.asString() != "")
+                              {
+                                excludePattern = plug.asString();
+                              }
+                        }
+
                         float shutterOpen = 0.0;
                         plug = FindMayaObjectPlug( "shutterOpen" );
                         if (!plug.isNull() )
@@ -267,6 +279,10 @@ class BB_gpuCacheTranslator : public CShapeTranslator
                         if (objectPattern != "*"){
                                 argsString += "-pattern ";
                                 argsString += objectPattern;
+                        }
+                        if (excludePattern != ""){
+                                argsString += "-excludepattern ";
+                                argsString += excludePattern;
                         }
                         if (shutterOpen != 0.0){
                                 argsString += " -shutteropen ";
@@ -495,6 +511,12 @@ class BB_gpuCacheTranslator : public CShapeTranslator
                         data.stringDefault = "";
                         data.name = "objectPattern";
                         data.shortName = "object_pattern";
+                        data.type = AI_TYPE_STRING;
+                        helper.MakeInput(data);
+
+                        data.stringDefault = "";
+                        data.name = "excludePattern";
+                        data.shortName = "exclude_pattern";
                         data.type = AI_TYPE_STRING;
                         helper.MakeInput(data);
 

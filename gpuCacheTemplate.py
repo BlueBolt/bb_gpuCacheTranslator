@@ -60,6 +60,7 @@ class GpuCacheTemplate(templates.ShapeTranslatorTemplate):
         self.addSeparator()
         
         self.addControl('objectPattern', label='Object Pattern')
+        self.addControl('excludePattern', label='Exclude Pattern')
         self.addControl('namePrefix', label='Name Prefix')
         self.addCustom('assShaders', ArnoldGpuCacheTemplateNew, ArnoldGpuCacheTemplateReplace)
 
